@@ -11,7 +11,7 @@ GraphNode::~GraphNode()
     //// STUDENT CODE
     ////
 
-    delete _chatBot; 
+    // this line caused the (core dumped) bug: delete _chatBot; 
 
     ////
     //// EOF STUDENT CODE

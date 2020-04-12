@@ -53,6 +53,7 @@ ChatBot::ChatBot(const ChatBot& other)
     _rootNode = other._rootNode;
     _currentNode = other._currentNode;
 
+    _chatLogic->SetChatbotHandle(this);
 }
 
 ChatBot::ChatBot(ChatBot&& other)
@@ -64,16 +65,12 @@ ChatBot::ChatBot(ChatBot&& other)
     _rootNode = other._rootNode;
     _currentNode = other._currentNode;
 
-    if(_image != NULL) 
-    {
-        delete _image;
-        _image = NULL;
-    }
+    other._chatLogic = nullptr;
+    other._rootNode = nullptr;
+    other._currentNode = nullptr;
+    other._image = NULL;
 
-    _chatLogic = nullptr;
-    _rootNode = nullptr;
-    _currentNode = nullptr;
-
+    _chatLogic->SetChatbotHandle(this);
 }
 
 ChatBot& ChatBot::operator=(const ChatBot& rhs)
@@ -89,6 +86,8 @@ ChatBot& ChatBot::operator=(const ChatBot& rhs)
     _rootNode = rhs._rootNode;
     _currentNode = rhs._currentNode;
 
+    _chatLogic->SetChatbotHandle(this);
+
     return *this;
 }
 
@@ -100,19 +99,23 @@ ChatBot& ChatBot::operator=(ChatBot&& rhs)
         return *this;
     }
 
-    _image = rhs._image;
-    _chatLogic = rhs._chatLogic;
-    _rootNode = rhs._rootNode;
-    _currentNode = rhs._currentNode;
-
     if(_image != NULL) 
     {
         delete _image;
         _image = NULL;
     }
-    _chatLogic = nullptr;
-    _rootNode = nullptr;
-    _currentNode = nullptr;
+
+    _image = rhs._image;
+    _chatLogic = rhs._chatLogic;
+    _rootNode = rhs._rootNode;
+    _currentNode = rhs._currentNode;
+    
+    rhs._chatLogic = nullptr;
+    rhs._rootNode = nullptr;
+    rhs._currentNode = nullptr;
+    rhs._image = NULL;
+
+    _chatLogic->SetChatbotHandle(this);
 
     return *this;
 }
